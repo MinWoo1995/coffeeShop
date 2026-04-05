@@ -1,7 +1,9 @@
 package com.example.coffeeshop.domain.menu.controller;
 
 import com.example.coffeeshop.domain.menu.dto.MenuResponse;
+import com.example.coffeeshop.domain.menu.dto.PopularMenuResponse;
 import com.example.coffeeshop.domain.menu.service.MenuService;
+import com.example.coffeeshop.domain.menu.service.PopularMenuService;
 import com.example.coffeeshop.global.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +18,16 @@ import java.util.List;
 public class MenuController {
 
     private final MenuService menuService;
+    private final PopularMenuService popularMenuService;
+
 
     @GetMapping
     public ApiResponse<List<MenuResponse>> getMenus() {
         return ApiResponse.success(menuService.getMenus());
+    }
+
+    @GetMapping("/popular")
+    public ApiResponse<PopularMenuResponse> getPopularMenus() {
+        return ApiResponse.success(popularMenuService.getPopularMenus());
     }
 }
