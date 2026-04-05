@@ -47,4 +47,10 @@ public class User {
         }
         this.pointBalance += amount;
     }
+    public void deductPoint(int amount) {
+        if (this.pointBalance < amount) {
+            throw new IllegalArgumentException("포인트 잔액이 부족합니다.");
+        }
+        this.pointBalance -= amount;
+    }
 }
