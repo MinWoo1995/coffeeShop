@@ -1,5 +1,7 @@
 package com.example.coffeeshop.domain.user.entity;
 
+import com.example.coffeeshop.global.exception.CustomException;
+import com.example.coffeeshop.global.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -43,13 +45,13 @@ public class User {
 
     public void chargePoint(int amount) {
         if (amount <= 0) {
-            throw new IllegalArgumentException("충전 금액은 0보다 커야 합니다.");
+            throw new CustomException(ErrorCode.INVALID_CHARGE_AMOUNT);
         }
         this.pointBalance += amount;
     }
     public void deductPoint(int amount) {
         if (this.pointBalance < amount) {
-            throw new IllegalArgumentException("포인트 잔액이 부족합니다.");
+            throw new CustomException(ErrorCode.INSUFFICIENT_POINT);
         }
         this.pointBalance -= amount;
     }

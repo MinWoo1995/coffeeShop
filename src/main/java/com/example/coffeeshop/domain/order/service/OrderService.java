@@ -11,6 +11,8 @@ import com.example.coffeeshop.domain.user.entity.PointType;
 import com.example.coffeeshop.domain.user.entity.User;
 import com.example.coffeeshop.domain.user.repository.PointHistoryRepository;
 import com.example.coffeeshop.domain.user.repository.UserRepository;
+import com.example.coffeeshop.global.exception.CustomException;
+import com.example.coffeeshop.global.exception.ErrorCode;
 import com.example.coffeeshop.global.platform.DataPlatformService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,11 +33,11 @@ public class OrderService {
 
         //비관적 락으로 유저 조회
         User user = userRepository.findByIdWithLock(request.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         //메뉴 조회 (판매 중단 체크)
         Menu menu = menuRepository.findByIdAndIsAvailableTrue(request.getMenuId())
-                .orElseThrow(() -> new IllegalArgumentException("주문할 수 없는 메뉴입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.MENU_NOT_FOUND));
 
         //포인트 차감 (잔액 부족 시 예외 발생)
         user.deductPoint(menu.getPrice());

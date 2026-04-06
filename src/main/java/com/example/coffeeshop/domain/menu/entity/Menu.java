@@ -32,4 +32,12 @@ public class Menu {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
+
+    public static Menu createForTest(String name, int price) {
+        Menu menu = new Menu();
+        menu.name = name;
+        menu.price = price;
+        menu.isAvailable = true;
+        return menu;
+    }
 }
